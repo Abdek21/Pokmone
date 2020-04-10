@@ -1,0 +1,12 @@
+{
+  "name": "pokmone",
+  "version": "0.1.0",
+  "description": "projet bot discord",
+  "main": "main.js",
+  "repository": "https://github.com/Abdek21/Pokmone.git",
+  "author": "Abdek21 <abdek.housssein@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.1.1"
+  }
+}

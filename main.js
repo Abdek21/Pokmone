@@ -1,25 +1,21 @@
 /* eslint-disable comma-dangle */
-const Discord = require("discord.js");
-const client = new Discord.Client();
+const { Client, Collection } = require("discord.js");
+const client = new Client();
 const { TOKEN, PREFIX } = require("./config");
 
-client.on("ready", () => {
-  console.log(`Hi, ${client.user.username} is now online!`);
+client.PREFIX = PREFIX;
 
-  client.user.setPresence({
-    status: "online",
-    game: {
-      name: "coder par Caribou",
-      type: "STREAMING",
-    },
-  });
-});
+client.commands = new Collection();
+client.commands.set("repeat", require("./commands/repeat.js"));
+client.commands.set("role", require("./commands/role.js"));
+client.commands.set("info", require("./commands/sinfo.js"));
 
-// eslint-disable-next-line arrow-parens
-client.on("message", (message) => {
-  if (message.content.startsWith(`${PREFIX}ping`)) {
-    message.channel.send("Pong!");
-  }
-});
+client.on("ready", () => require("./events/ready.js")(client));
+client.on("message", (msg) => require("./events/message.js")(client, msg));
+client.on("guildMemberAdd", (member) =>
+  require("./events/guildMemberAdd.js")(client, member)
+);
 
 client.login(TOKEN);
+client.on("error", console.error);
+client.on("warn", console.warn);
